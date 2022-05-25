@@ -7,9 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Text))]
 public class TextMultiLanguagesComponent : MonoBehaviour
 {
-    
-    // public ContentFitterRefresh cff;
-    
+
     /// To show in Inspector
     [Serializable]
     public struct MultiText
@@ -37,9 +35,17 @@ public class TextMultiLanguagesComponent : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        /// Switch on enable
+        if (LanguageManager.instance)
+            ChangeTextOnLanguage(LanguageManager.instance.language);
+    }
+
 
     void Start()
     {
+        /// Register
         LanguageManager.instance.onLanguageChanged += ChangeTextOnLanguage;
     }
 
@@ -49,10 +55,10 @@ public class TextMultiLanguagesComponent : MonoBehaviour
         /// Set new text
         string newText = langDict[lang];
         originalText.text = newText;
-        
+
         /// Check if in the Parent there's a "ContentFitterRefresh" component,
         /// so that we have to refresh the content size fitter
         ContentFitterRefresh refresher = gameObject.GetComponentInParent<ContentFitterRefresh>();
-        if (refresher != null) refresher.RefreshContentFitters();   
+        if (refresher != null) refresher.RefreshContentFitters();
     }
 }
