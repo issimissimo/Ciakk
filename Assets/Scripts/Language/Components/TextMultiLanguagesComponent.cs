@@ -30,6 +30,9 @@ public class TextMultiLanguagesComponent : MonoBehaviour
     {
         originalText = GetComponent<Text>();
 
+        /// Set the text empty
+        originalText.text = "";
+
         /// Put all the lang/text in a Dictionary
         foreach (MultiText mt in multiText)
         {
@@ -46,7 +49,7 @@ public class TextMultiLanguagesComponent : MonoBehaviour
         LanguageManager.instance.onLanguageChanged += ChangeTextOnLanguage;
 
         /// Call at Init
-        ChangeTextOnLanguage(LanguageManager.instance.language);
+        // ChangeTextOnLanguage(LanguageManager.instance.language);
     }
 
 
