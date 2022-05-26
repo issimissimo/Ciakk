@@ -1,33 +1,34 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
-
-[RequireComponent(typeof(CanvasGroup))]
-public class HideWhileTextIsEmpty : MonoBehaviour
+namespace UI.Utils
 {
-    private CanvasGroup canvasGroup;
-    [SerializeField] Text text;
-
-
-    void Awake()
+    [RequireComponent(typeof(CanvasController))]
+    public class HideWhileTextIsEmpty : MonoBehaviour
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-        canvasGroup.alpha = 0;
+        private CanvasController canvasController;
+        [SerializeField] Text text;
+
+
+        void Awake()
+        {
+            canvasController = GetComponent<CanvasController>();
+            canvasController.Hide();
+        }
+
+
+        IEnumerator Start()
+        {
+            yield return new WaitUntil(() => !string.IsNullOrEmpty(text.text));
+            canvasController.Show();
+        }
+
+
+        void Update()
+        {
+
+        }
     }
 
-
-    IEnumerator Start()
-    {
-        yield return new WaitUntil(() => !string.IsNullOrEmpty(text.text));
-        canvasGroup.alpha = 1;
-    }
-
-
-    void Update()
-    {
-
-    }
 }

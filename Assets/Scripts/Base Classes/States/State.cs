@@ -1,12 +1,14 @@
 using UnityEngine;
+using UI.Utils;
+
 public abstract class State : MonoBehaviour
 {
     protected GameManager gameManager;
-    [SerializeField] protected GameObject panel;
+    [SerializeField] protected CanvasController panel;
 
     private void Awake()
     {
-        if (panel) panel.SetActive(false);
+        if (panel) panel.Hide();
     }
     
     public virtual void Enter(StateMachine stateMachine)
@@ -22,11 +24,11 @@ public abstract class State : MonoBehaviour
             Debug.LogError("StateMachine parameter is not valid!");
         } 
 
-        if (panel) panel.SetActive(true); 
+        if (panel) panel.Show(); 
     }
 
     public virtual void Exit()
     {
-        if (panel) panel.SetActive(false);
+        if (panel) panel.Hide();
     }
 }
