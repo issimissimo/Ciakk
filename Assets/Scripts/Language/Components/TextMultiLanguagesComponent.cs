@@ -24,6 +24,8 @@ public class TextMultiLanguagesComponent : MonoBehaviour
     Dictionary<Languages, string> langDict = new Dictionary<Languages, string>();
 
 
+
+
     void Awake()
     {
         originalText = GetComponent<Text>();
@@ -35,19 +37,19 @@ public class TextMultiLanguagesComponent : MonoBehaviour
         }
     }
 
-    void OnEnable()
-    {
-        /// Switch on enable
-        if (LanguageManager.instance)
-            ChangeTextOnLanguage(LanguageManager.instance.language);
-    }
+
 
 
     void Start()
     {
         /// Register
         LanguageManager.instance.onLanguageChanged += ChangeTextOnLanguage;
+
+        /// Call at Init
+        ChangeTextOnLanguage(LanguageManager.instance.language);
     }
+
+
 
 
     void ChangeTextOnLanguage(Languages lang)
