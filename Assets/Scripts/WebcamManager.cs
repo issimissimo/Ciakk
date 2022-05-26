@@ -1,17 +1,11 @@
-/* 
-*   NatCorder
-*   Copyright (c) 2022 NatML Inc. All Rights Reserved.
-*/
-
-namespace NatSuite.Examples {
-
     using System.Collections;
     using UnityEngine;
     using UnityEngine.UI;
-    using Recorders;
-    using Recorders.Clocks;
     using System;
     using System.IO;
+    using NatSuite.Recorders;
+    using NatSuite.Recorders.Clocks;
+    
 
     public class WebcamManager : MonoBehaviour {
 
@@ -26,9 +20,11 @@ namespace NatSuite.Examples {
         private Color32[] pixelBuffer;
 
 
-        #region --Recording State--
+        
 
         public void StartRecording () {
+            webCamTexture.Play();
+
             // Start recording
             clock = new RealtimeClock();
             recorder = new MP4Recorder(webCamTexture.width, webCamTexture.height, 30, videoBitRate: 6_000_000);
@@ -39,6 +35,9 @@ namespace NatSuite.Examples {
         public async void StopRecording () {
             // Stop recording
             recording = false;
+
+            webCamTexture.Stop();
+
             var path = await recorder.FinishWriting();
             // Playback recording
             Debug.Log($"Saved recording to: {path}");
@@ -54,14 +53,12 @@ namespace NatSuite.Examples {
             Debug.Log(newPath);
             System.IO.File.Move(path, newPath);
 
-            #if !UNITY_STANDALONE
-            Handheld.PlayFullScreenMovie($"file://{path}");
-            #endif
+           
         }
-        #endregion
+        
 
 
-        #region --Operations--
+        
 
         IEnumerator Start () {
 
@@ -73,7 +70,9 @@ namespace NatSuite.Examples {
                 yield break;
             // Start the WebCamTexture
             webCamTexture = new WebCamTexture(1280, 720, 30);
-            webCamTexture.Play();
+            // webCamTexture.Play();
+
+
             // Display webcam
             yield return new WaitUntil(() => webCamTexture.width != 16 && webCamTexture.height != 16); // Workaround for weird bug on macOS
             rawImage.texture = webCamTexture;
@@ -87,6 +86,5 @@ namespace NatSuite.Examples {
                 recorder.CommitFrame(pixelBuffer, clock.timestamp);
             }
         }
-        #endregion
+    
     }
-}
