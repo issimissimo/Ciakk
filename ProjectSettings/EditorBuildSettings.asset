@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/NatML/Examples/WebCam/WebCam.unity
+    guid: 66396c4bbeac244118de8e95af4aff1d
   m_configObjects: {}
